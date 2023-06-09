@@ -3,6 +3,7 @@
   "deviceName": "oreo",
   "platformVersion": "12.0",
   "appPackage": "com.loginmodule.learning",
+  "automationName": "UiAutomator2",
   "appActivity": "com.loginmodule.learning.activities.LoginActivity",
   "udid": "9T9PMZEYO7MR9DJB",
   "newCommandTimeout": 10,
