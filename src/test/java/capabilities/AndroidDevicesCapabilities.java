@@ -2,8 +2,9 @@ package capabilities;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.io.File;
+
 public enum AndroidDevicesCapabilities {
-    ANDROID_LOCAL_DEVICE("capabilities-json/android-local-devices.json"),
     ANDROID_REAL_DEVICE("capabilities-json/android-real-device.json");
     private final String path;
 
@@ -13,7 +14,7 @@ public enum AndroidDevicesCapabilities {
 
     public DesiredCapabilities getAndroidCapabilitiesFromPlatform() {
         DesiredCapabilities androidCapabilities = LoadCapabilities.pathToDesiredCapabilitites(this.path);
-        //  androidCapabilities.setCapability("chromedriverExecutable", new File("chromedriver").getAbsolutePath());
+          androidCapabilities.setCapability("chromedriverExecutable", new File("chromedriver.exe").getAbsolutePath());
         return androidCapabilities;
     }
 
