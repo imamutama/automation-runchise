@@ -21,12 +21,13 @@ Set the value of json:
 {
   "platformName": "Android",
   "deviceName": "oreo",
-  "platformVersion": "12.0",
-  "appPackage": "com.loginmodule.learning",
-  "appActivity": "com.loginmodule.learning.activities.LoginActivity",
-  "udid": "9T9PMZEYO7MR9DJB",
-  "newCommandTimeout": 10,
-  "noReset": false
+  "platformVersion": "8.1.0",
+  "udid": "4b9621ae",
+  "autoGrantPermissions": true,
+  "noReset": false,
+  "UiAutomatorName": "UiAutomator2",
+  "chromedriverExecutable": "C:\\Users\\utama\\IdeaProjects\\automation-salesforce\\chromedriver.exe",
+  "browserName": "chrome"
 }
 ```
 ## Running Tests
