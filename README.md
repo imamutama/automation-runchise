@@ -36,9 +36,3 @@ $ mvn clean test -Dcucumber.filter.tags="@add-product" -Denv.PLATAFORM=ANDROID_R
 ```
 This command will execute the tests tagged with @smoke-test on an Android real device.
 
-## Test Scenarios
-The project includes various test scenarios covering different aspects of Salesforce UI. Some of the key test scenarios are:
-
-* Login
-* Registration
-
