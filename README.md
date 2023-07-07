@@ -9,7 +9,7 @@
 ## Setup
 Clone the repository: 
 ```console
-git clone https://github.com/imamutama/mobile-surplus-cucumber.git
+git clone https://github.com/imamutama/automation-runchise.git
 ```
 * Start Appium Driver
 
@@ -21,24 +21,18 @@ Set the value of json:
 {
   "platformName": "Android",
   "deviceName": "oreo",
-  "platformVersion": "12.0",
-  "appPackage": "com.loginmodule.learning",
-  "appActivity": "com.loginmodule.learning.activities.LoginActivity",
-  "udid": "9T9PMZEYO7MR9DJB",
-  "newCommandTimeout": 10,
-  "noReset": false
+  "platformVersion": "8.1.0",
+  "udid": "4b9621ae",
+  "autoGrantPermissions": true,
+  "noReset": false,
+  "UiAutomatorName": "UiAutomator2",
+  "chromedriverExecutable": "C:\\Users\\utama\\IdeaProjects\\automation-salesforce\\chromedriver.exe",
+  "browserName": "chrome"
 }
 ```
 ## Running Tests
 To run the automation tests, use the following command:
 ```console
-$ mvn clean test -Dcucumber.filter.tags="@smoke-test" -Denv.PLATAFORM=ANDROID_REAL_DEVICE
+$ mvn clean test -Dcucumber.filter.tags="@add-product" -Denv.PLATAFORM=ANDROID_REAL_DEVICE
 ```
-This command will execute the tests tagged with @smoke-test on an Android real device.
-
-## Test Scenarios
-The project includes various test scenarios covering different aspects of Salesforce UI. Some of the key test scenarios are:
-
-* Login
-* Registration
 
