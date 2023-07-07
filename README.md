@@ -9,7 +9,7 @@
 ## Setup
 Clone the repository: 
 ```console
-git clone https://github.com/imamutama/mobile-surplus-cucumber.git
+git clone https://github.com/imamutama/automation-runchise.git
 ```
 * Start Appium Driver
 
