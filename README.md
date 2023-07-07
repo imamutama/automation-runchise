@@ -35,5 +35,4 @@ To run the automation tests, use the following command:
 ```console
 $ mvn clean test -Dcucumber.filter.tags="@add-product" -Denv.PLATAFORM=ANDROID_REAL_DEVICE
 ```
-This command will execute the tests tagged with @smoke-test on an Android real device.
 
