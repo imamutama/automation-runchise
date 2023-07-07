@@ -67,25 +67,6 @@ public class Action {
         }
     }
 
-    public boolean verifyTextElementAndroid(String text) {
-        changeDriverContextToNative(driver);
-        try {
-            implicitWait();
-            return driver.findElement(By.xpath("//*[text()='" + text + "']")).isDisplayed();
-        } catch (Exception e) {
-            throw new RuntimeException("Element " + text + " is cannot displayed in page");
-        }
-    }
-
-    public boolean verifyElementDisplayed(Direction dir, String elementBy) throws Exception {
-        changeDriverContextToWeb(driver);
-        try {
-            implicitWait();
-            return driver.findElement(byDirection(dir, elementBy)).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
     public void click(Direction dir, String elementBy) throws Exception {
         changeDriverContextToWeb(driver);
@@ -111,19 +92,6 @@ public class Action {
         driver.findElement(byDirection(dir, elementBy)).sendKeys(text);
     }
 
-    public By clickJsSelector(By by) {
-        WebElement element = driver.findElement(by);
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        executor.executeScript("arguments[0].click();", element);
-        return by;
-    }
-
-    public boolean verifyElementDisable(Direction dir, String element) {
-        changeDriverContextToWeb(driver);
-        WebElement input = driver.findElement(byDirection(dir, element));
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        return (boolean) executor.executeScript("return arguments[0].disabled", input);
-    }
 
     public static void changeDriverContextToWeb(AppiumDriver driver) {
         Set<String> contextNames = ((SupportsContextSwitching) driver).getContextHandles();
@@ -166,17 +134,6 @@ public class Action {
         performScrollUsingSequence(startX, startY, endX, endY);
     }
 
-    public void tapCordinate() throws InterruptedException {
-        Thread.sleep(1000);
-        Dimension size = driver.manage().window().getSize();
-        System.out.println("index :" + size);
-        int startX = (int) (size.width * 0.5);
-        System.out.println("index :" + startX);
-        int endY = (int) (size.height - 100);
-        System.out.println("index :" + endY);
-        clickOnPosition(startX, endY);
-    }
-
     public void clickOnPosition(int pointA_X, int pointA_Y) throws InterruptedException {
         PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
         Sequence clickPosition = new Sequence(finger, 1);
@@ -198,40 +155,9 @@ public class Action {
         ((AppiumDriver) (driver)).perform(Collections.singletonList(sequence));
     }
 
-    public void selectDropdown(Direction dir, String element, String valueSearch, String valueDrop) throws
-            Exception {
-        implicitWait();
-        sendText(dir, element, valueSearch);
-        clickByText(valueDrop);
-    }
-
-    public void selectValue(Direction dir, String element, String valueSearch) throws
-            Exception {
-        implicitWait();
-        click(dir, element);
-        Thread.sleep(2000);
-        clickByText(valueSearch);
-        Thread.sleep(2000);
-    }
-
-    public String getTextJsExecutor(Direction dir, String element) throws Exception {
-        changeDriverContextToWeb(driver);
-        WebElement input = driver.findElement(byDirection(dir, element));
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        return (String) executor.executeScript("return arguments[0].value;", input);
-    }
-
-    public void backAndroid() {
-        driver.navigate().back();
-    }
 
     public String getText(Direction dir, String element) {
         return driver.findElement(byDirection(dir, element)).getText();
-    }
-
-    public void scrollByText(String visibleText) {
-        changeDriverContextToNative(driver);
-        driver.findElement(new AppiumBy.ByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).index(0)).scrollIntoView(new UiSelector().text(\"" + visibleText + "\"))"));
     }
 
     public void scrollElement(String elementID) throws InterruptedException {
@@ -239,93 +165,6 @@ public class Action {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         Thread.sleep(500);
     }
-
-    public static By uploadImage(By text, String path) {
-        WebElement input = driver.findElement(text);
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        executor.executeScript("arguments[0].type='file'", input);
-        input.sendKeys(path);
-        return text;
-    }
-
-    public void select(Direction dir, String elementBy, Consumer<Select> consumer) {
-        consumer.accept(new Select(driver.findElement(byDirection(dir, elementBy))));
-    }
-
-
-    public boolean verifyTextElementNative(String text) {
-        changeDriverContextToNative(driver);
-        try {
-            implicitWait();
-            return driver.findElement(By.xpath("//*[@text='" + text + "']")).isDisplayed();
-        } catch (Exception e) {
-            throw new RuntimeException("Element " + text + " is cannot displayed in page");
-        }
-    }
-
-    public String getAttribute(Direction dir, String elementBy, Function<WebElement, String> attributeFunction) {
-        return attributeFunction.apply(driver.findElement(byDirection(dir, elementBy)));
-    }
-
-    public boolean isPresent(Direction dir, String elementBy, Predicate<WebElement> elementPredicate) {
-        return elementPredicate.test(driver.findElement(byDirection(dir, elementBy)));
-    }
-
-    public void scrollForMobile(Direction dir, String elementBy) throws InterruptedException {
-        String previousPageSource = "";
-        while (isElementNotEnabled(dir, elementBy) && isNotEndOfPage(previousPageSource)) {
-            previousPageSource = driver.getPageSource();
-            performScroll();
-        }
-    }
-
-    public void datePickerSetClick(String element) {
-        changeDriverContextToNative(driver);
-        driver.findElement(By.id(element)).click();
-    }
-
-    public void clickByNative(Direction dir, String element) {
-        implicitWait();
-        changeDriverContextToNative(driver);
-        driver.findElement(byDirection(dir, element)).click();
-    }
-
-    public static By jsSelector(By s) {
-        changeDriverContextToWeb(driver);
-        WebElement elementToSelect = driver.findElement(s);
-        elementToSelect.click();
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        executor.executeScript("arguments[0].click();", elementToSelect);
-        return s;
-    }
-
-    public static By sendTextJs(By s, String text) {
-        WebElement inputField = driver.findElement(s);
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        executor.executeScript("arguments[0].value='text';", inputField);
-        return s;
-    }
-
-    public void enterDown() {
-        Actions keyDown = new Actions(driver);
-        keyDown.sendKeys(Keys.chord(Keys.DOWN, Keys.DOWN)).perform();
-    }
-
-    public void enter() {
-        ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.ENTER));
-    }
-
-    public void clickValueDropdown(String element, String value) throws InterruptedException {
-        Thread.sleep(2000);
-        List<WebElement> elements = driver.findElements(By.xpath(element));
-        for (WebElement e : elements) {
-            if (value.contains(e.getText())) {
-                e.click();
-                System.out.println("Get Value Dropdown : " + e.getText());
-            }
-        }
-    }
-
 
     public By byDirection(Direction dir, String element) {
         By by = null;
@@ -351,9 +190,6 @@ public class Action {
         return by;
     }
 
-    public void verifyTextList(Direction direction, String s, String value) {
-    }
-
     public enum Direction {
         XPATH,
         ID,
@@ -363,51 +199,4 @@ public class Action {
         ACCESSBILITYID
     }
 
-    public void ctrlADelete(Direction dir, String elementBy) throws Exception {
-        waitElementDisplayed(Direction.XPATH, elementBy);
-        String act = Keys.chord(Keys.CONTROL, "a", Keys.DELETE);
-        WebElement field = driver.findElement(byDirection(dir, elementBy));
-        field.sendKeys(act);
-    }
-
-    public boolean classIsActive(String classname, int index, String text) {
-        try {
-            implicitWait();
-            driver.findElement(By.xpath("//*[@class='" + classname + "']['" + index + "']/*[text()='" + text + "']")).isDisplayed();
-        } catch (Exception e) {
-            throw new RuntimeException("Element " + text + " is cannot displayed in page");
-        }
-        return true;
-    }
-
-    public boolean isDisabled(String elementBy) {
-        driver.findElement(By.xpath("//*[@class=" + elementBy + " and @disabled]")).isDisplayed();
-        return true;
-    }
-
-    public boolean classHaveText(String classname1, String classname2, String text) {
-        try {
-            implicitWait();
-            driver.findElement(By.xpath("//*[@class='" + classname1 + "']//*[@class='" + classname2 + "' and text()='" + text + "']")).isDisplayed();
-            return true;
-        } catch (Exception e) {
-            //throw new RuntimeException("Element " + text + " is cannot displayed in page");
-            return false;
-        }
-    }
-
-    public boolean classDisplayed(String classname) {
-        driver.findElement(By.xpath("//*[@class='" + classname + "']")).isDisplayed();
-        return true;
-    }
-
-    public boolean classDisplayedText(String classname, String text) {
-        driver.findElement(By.xpath("//*[@class='" + classname + "' and text()='" + text + "']")).isDisplayed();
-        return true;
-    }
-
-    public boolean checkboxIsChecked(String classname, String merek) {
-        driver.findElement(By.xpath("//*[@class='" + classname + "' and text()='" + merek + "']//*[@type='checkbox' and @checked]")).isDisplayed();
-        return true;
-    }
 }
