@@ -15,7 +15,7 @@ public class DriverFactoryManager {
     public static AppiumDriver startDriverByMavenParameter(String mavenEnvironment) {
         try {
             if (mavenEnvironment.contains("ANDROID")) {
-                Driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), AndroidDevicesCapabilities.valueOf(mavenEnvironment).getAndroidCapabilitiesFromPlataform());
+                Driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), AndroidDevicesCapabilities.valueOf(mavenEnvironment).getAndroidCapabilitiesFromPlatform());
             } else if (mavenEnvironment.contains("IPHONE")) {
                 System.out.println("not running ios");
             }
@@ -36,7 +36,10 @@ public class DriverFactoryManager {
     }
 
     public static void quitDriver() {
-        Driver.quit();
+        if (Driver != null) {
+            Driver.manage().deleteAllCookies();
+            Driver.quit();
+        }
     }
 
     public static void clear() {
